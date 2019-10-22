@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 let audience = "aud-localhost";
-let redirectTo = "http://localhost:3000";
+let redirectTo = "http://localhost:5000";
 let oidcProviderBaseUrl = 'http://localhost:9000';
 let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + redirectTo + "&response_type=code&scope=openid+profile&nonce=123";
 let clientSecret = "localhost-secret";
