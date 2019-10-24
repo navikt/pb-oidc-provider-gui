@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+
+  oidc-provier:
+    image: "navikt/pb-oidc-provider:0.5.0"
+    ports:
+      - "9000:9000"
+
+  oidc-provider-gui:
+    image: "navikt/pb-oidc-provider-gui::0.8.0"
+    ports:
+      - "5000:5000"
