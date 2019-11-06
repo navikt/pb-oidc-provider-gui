@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 
-let audience = "aud-localhost";
-let redirectTo = "http://localhost:5000";
-let oidcProviderBaseUrl = 'http://localhost:9000';
-let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + redirectTo + "&response_type=code&scope=openid+profile&nonce=123";
-let clientSecret = "localhost-secret";
+let audience = "stubOidcClient";
+let redirectTo = "http://localhost:7000/callback";
+let oidcProviderBaseUrl = 'http://localhost:8080';
+let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + redirectTo + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
+let clientSecret = "secretsarehardtokeep";
 let authenticationHeader = new Buffer(audience + ":" + clientSecret).toString('base64');
 
 class App extends Component {
@@ -12,11 +12,8 @@ class App extends Component {
         idToken: ""
     };
 
-    // This binding is necessary to make `this` work in the callback
-    redirectToAuthenticationPage = this.redirectToAuthenticationPage.bind(this);
-
-    redirectToAuthenticationPage() {
-        window.location.assign(redirectToInitTokenFlow);
+    redirectToAuthenticationPage(sikkerhetsnivaa) {
+        window.location.assign(`${redirectToInitTokenFlow}&acr_values=${sikkerhetsnivaa}`);
     }
 
     componentDidMount() {
@@ -30,12 +27,15 @@ class App extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.redirectToAuthenticationPage}>
-                    Hent token
+                <button onClick={() => this.redirectToAuthenticationPage("Level3")}>
+                    Token for nivå 3
+                </button>
+                <button onClick={() => this.redirectToAuthenticationPage("Level4")}>
+                    Token for nivå 4
                 </button>
                 <div>
                     <textarea name="idToken" id="idToken" cols="100" rows="10"
-                              defaultValue={this.state.idToken != null ? this.state.idToken : "Token har ikke blitt hentet"}></textarea><br/>
+                              defaultValue={this.state.idToken != null ? this.state.idToken : "Token har ikke blitt hentet"} /><br/>
                 </div>
             </div>
         );
@@ -65,7 +65,7 @@ class App extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization: 'Basic ' + authenticationHeader
             },
-            body: 'grant_type=authorization_code&code=' + code + '&redirect_uri=' + redirectTo,
+            body: 'grant_type=authorization_code&code=' + code + '&redirect_uri=' + redirectTo + '&client_secret=' + clientSecret,
         })
             .then(response => {
                 if (response.ok) {
