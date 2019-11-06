@@ -7,7 +7,7 @@ RUN npm install && npm run build
 RUN npm install serve
 RUN yarn global add serve
 
-ENV PORT=5000
+ENV PORT=7000
 EXPOSE $PORT
 
 CMD ["serve", "-s", "build"]
