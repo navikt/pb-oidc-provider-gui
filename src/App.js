@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
 let audience = "stubOidcClient";
-let redirectTo = "http://localhost:7000/callback";
-let oidcProviderBaseUrl = 'http://localhost:8080';
+let redirectTo = "http://localhost:5000/callback";
+let oidcProviderBaseUrl = 'http://localhost:9000';
 let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + redirectTo + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
 let clientSecret = "secretsarehardtokeep";
 let authenticationHeader = new Buffer(audience + ":" + clientSecret).toString('base64');
@@ -65,7 +65,7 @@ class App extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization: 'Basic ' + authenticationHeader
             },
-            body: 'grant_type=authorization_code&code=' + code + '&redirect_uri=' + redirectTo + '&client_secret=' + clientSecret,
+            body: 'grant_type=authorization_code&code=' + code + '&redirect_uri=' + redirectTo + '&client_secret=' + clientSecret.toString("base64"),
         })
             .then(response => {
                 if (response.ok) {
