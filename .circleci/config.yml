@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  bygg-og-push-docker:
+  build:
     docker:
       - image: circleci/node
     steps:
@@ -20,7 +20,7 @@ jobs:
 workflows:
     bygg-og-push-docker:
       jobs:
-        - bygg-og-push-docker
+        - build:
             filters:
               branches:
                 only:
