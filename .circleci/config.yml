@@ -1,0 +1,28 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Docker build
+          command: docker build -t "navikt/pb-oidc-provider-gui:$CIRCLE_SHA1" -t "navikt/pb-oidc-provider-gui:latest" .
+      - run:
+          name: Docker push
+          command: |
+            echo $DOCKER_PASSWORD | docker login --username $DOCKER_LOGIN --password-stdin
+            docker push "navikt/pb-oidc-provider-gui:$CIRCLE_SHA1"
+            docker push "navikt/pb-oidc-provider-gui:latest"
+
+workflows:
+    bygg-og-push-docker:
+      jobs:
+        - build:
+            filters:
+              branches:
+                only:
+                  -master
+
