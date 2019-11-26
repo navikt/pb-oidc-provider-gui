@@ -21,6 +21,7 @@ workflows:
     bygg-og-push-docker:
       jobs:
         - build:
+            context: NAIS deployment
             filters:
               branches:
                 only:
