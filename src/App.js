@@ -23,8 +23,7 @@ class App extends Component {
     }
 
     setCookie() {
-        let hasToken = this.state.idToken !== "";
-        if (hasToken) {
+        if (this.state.idToken) {
             Cookies.set('selvbetjening-idtoken', this.state.idToken);
             this.redirectToDittNav();
         }
