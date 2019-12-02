@@ -1,19 +1,33 @@
 import React, {Component} from 'react';
+import Cookies from 'js-cookie'
 
 let audience = "stubOidcClient";
 let redirectTo = "http://localhost:5000/callback";
 let oidcProviderBaseUrl = 'http://localhost:9000';
+let dittNavHendelserUrl = 'http://localhost:9002';
 let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + redirectTo + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
 let clientSecret = "secretsarehardtokeep";
 let authenticationHeader = new Buffer(audience + ":" + clientSecret).toString('base64');
 
 class App extends Component {
     state = {
-        idToken: ""
+        idToken: "",
     };
 
     redirectToAuthenticationPage(sikkerhetsnivaa) {
         window.location.assign(`${redirectToInitTokenFlow}&acr_values=${sikkerhetsnivaa}`);
+    }
+
+    redirectToDittNav() {
+        window.location.assign(`${dittNavHendelserUrl}`);
+    }
+
+    setCookie() {
+        if (this.state.idToken) {
+            Cookies.set('selvbetjening-idtoken', this.state.idToken);
+            this.redirectToDittNav();
+        }
+        console.log('Error: missing token');
     }
 
     componentDidMount() {
@@ -32,6 +46,9 @@ class App extends Component {
                 </button>
                 <button onClick={() => this.redirectToAuthenticationPage("Level4")}>
                     Token for nivå 4
+                </button>
+                <button onClick={() => this.setCookie()}>
+                    Sett cookie
                 </button>
                 <div>
                     <textarea name="idToken" id="idToken" cols="100" rows="10"
