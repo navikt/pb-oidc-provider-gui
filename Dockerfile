@@ -10,4 +10,4 @@ RUN yarn global add serve
 ENV PORT=5000
 EXPOSE $PORT
 
-CMD ["serve", "-s", "build"]
+CMD [ "npm", "start" ]
