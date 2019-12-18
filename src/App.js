@@ -26,6 +26,8 @@ class App extends Component {
     setCookie() {
         if (this.state.idToken) {
             Cookies.set('selvbetjening-idtoken', this.state.idToken);
+        } else {
+            console.log('Error: missing token');
         }
         console.log('Error: missing token');
     }
