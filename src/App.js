@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import Cookies from 'js-cookie'
 
-let audience = "stubOidcClient";
+let cookieName = 'selvbetjening-idtoken';
+let dittNavUrl = 'http://localhost:9002';
 let redirectTo = "http://localhost:5000/callback";
 let oidcProviderBaseUrl = 'http://localhost:9000';
-let dittNavHendelserUrl = 'http://localhost:9002';
 let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + redirectTo + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
+let audience = "stubOidcClient";
 let clientSecret = "secretsarehardtokeep";
 let authenticationHeader = new Buffer(audience + ":" + clientSecret).toString('base64');
 
@@ -19,15 +20,21 @@ class App extends Component {
     }
 
     redirectToDittNav() {
-        window.location.assign(`${dittNavHendelserUrl}`);
+        window.location.assign(`${dittNavUrl}`);
     }
 
     setCookie() {
         if (this.state.idToken) {
             Cookies.set('selvbetjening-idtoken', this.state.idToken);
-            this.redirectToDittNav();
         }
         console.log('Error: missing token');
+    }
+
+    deleteCookie() {
+        let cookie = Cookies.get(cookieName);
+        if (cookie) {
+            Cookies.remove(cookieName);
+        }
     }
 
     componentDidMount() {
@@ -47,13 +54,21 @@ class App extends Component {
                 <button onClick={() => this.redirectToAuthenticationPage("Level4")}>
                     Token for nivå 4
                 </button>
+
+                <div>
+                    <textarea name="idToken" id="idToken" cols="100" rows="10"
+                              defaultValue={this.state.idToken != null ? this.state.idToken : "Token har ikke blitt hentet"}/><br/>
+                </div>
+
                 <button onClick={() => this.setCookie()}>
                     Sett cookie
                 </button>
-                <div>
-                    <textarea name="idToken" id="idToken" cols="100" rows="10"
-                              defaultValue={this.state.idToken != null ? this.state.idToken : "Token har ikke blitt hentet"} /><br/>
-                </div>
+                <button onClick={() => this.redirectToDittNav()}>
+                    Redirect to DittNAV
+                </button>
+                <button onClick={() => this.deleteCookie()}>
+                    Slett cookie
+                </button>
             </div>
         );
     }
@@ -92,7 +107,7 @@ class App extends Component {
             })
             .then(json => {
                 if (json != null) {
-                    let idToken = this.removeSuroundingFnutts(json);
+                    let idToken = this.removeSurroundingFnutts(json);
                     this.setState(prevState => ({
                         idToken: idToken
                     }));
@@ -104,7 +119,7 @@ class App extends Component {
             .catch((e) => console.log(`ERROR: ${e}`));
     };
 
-    removeSuroundingFnutts(json) {
+    removeSurroundingFnutts(json) {
         return JSON.stringify(json.id_token).replace("\"", "").replace("\"", "");
     }
 }
