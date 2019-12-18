@@ -5,10 +5,10 @@ let cookieName = 'selvbetjening-idtoken';
 let dittNavUrl = 'http://localhost:9002';
 let redirectTo = "http://localhost:5000/callback";
 let oidcProviderBaseUrl = 'http://localhost:9000';
-let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + redirectTo + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
 let audience = "stubOidcClient";
 let clientSecret = "secretsarehardtokeep";
 let authenticationHeader = new Buffer(audience + ":" + clientSecret).toString('base64');
+let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + redirectTo + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
 
 class App extends Component {
     state = {
