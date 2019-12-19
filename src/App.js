@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import Cookies from 'js-cookie'
 
-let tokenCookieName = 'selvbetjening-idtoken';
-let autoRedirectToFrontend = process.env.REACT_APP_AUTO_REDIRECT_TO_FRONTEND === "true" ? true : true;
-let redirectToFrontendUrl = process.env.REACT_APP_REDIRECT_URL ? process.env.REACT_APP_REDIRECT_URL : 'http://localhost:8090';
-let oidcProviderGuiUrl = "http://localhost:5000/callback";
-let oidcProviderBaseUrl = 'http://localhost:9000';
-let audience = "stubOidcClient";
-let clientSecret = "secretsarehardtokeep";
-let authenticationHeader = new Buffer(audience + ":" + clientSecret).toString('base64');
-let redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + oidcProviderGuiUrl + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
+const tokenCookieName = 'selvbetjening-idtoken';
+const autoRedirectToFrontend = process.env.REACT_APP_AUTO_REDIRECT_TO_FRONTEND === "true" ? true : true;
+const redirectToFrontendUrl = process.env.REACT_APP_REDIRECT_URL ? process.env.REACT_APP_REDIRECT_URL : 'http://localhost:8090';
+const oidcProviderGuiUrl = "http://localhost:5000/callback";
+const oidcProviderBaseUrl = 'http://localhost:9000';
+const audience = "stubOidcClient";
+const clientSecret = "secretsarehardtokeep";
+const authenticationHeader = new Buffer(audience + ":" + clientSecret).toString('base64');
+const redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + oidcProviderGuiUrl + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
 
 class App extends Component {
 
