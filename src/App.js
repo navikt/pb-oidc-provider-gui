@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Cookies from 'js-cookie'
 
-let cookieName = 'selvbetjening-idtoken';
-let autoRedirectToFrontend = process.env.REACT_APP_AUTO_REDIRECT_TO_FRONTEND === "true" ? true : false;
-let redirectToFrontend = process.env.REACT_APP_REDIRECT_URL ? process.env.REACT_APP_REDIRECT_URL : 'http://localhost:9002';
+let tokenCookieName = 'selvbetjening-idtoken';
+let autoRedirectToFrontend = process.env.REACT_APP_AUTO_REDIRECT_TO_FRONTEND === "true" ? true : true;
+let redirectToFrontendUrl = process.env.REACT_APP_REDIRECT_URL ? process.env.REACT_APP_REDIRECT_URL : 'http://localhost:8090';
 let oidcProviderGuiUrl = "http://localhost:5000/callback";
 let oidcProviderBaseUrl = 'http://localhost:9000';
 let audience = "stubOidcClient";
@@ -19,7 +19,7 @@ class App extends Component {
 
     componentDidMount() {
         this.deleteCookieIfCurrentUrlSpecifiesLogout();
-        this.updateIdTokenOnState(this.getCookieValue());
+        this.updateIdTokenOnState(this.getTokenCookieValue());
         let code = this.extractCodeFromUrl();
         if (code) {
             console.log("Code: " + code);
@@ -30,7 +30,7 @@ class App extends Component {
     deleteCookieIfCurrentUrlSpecifiesLogout() {
         let currentUrl = window.location.href;
         if (this.isLogOutUrl(currentUrl)) {
-            this.deleteCookie();
+            this.deleteTokenCookie();
         }
     }
 
@@ -38,19 +38,19 @@ class App extends Component {
         return currentUrl.indexOf("?logout") !== -1;
     }
 
-    deleteCookie() {
-        let cookie = Cookies.get(cookieName);
+    deleteTokenCookie() {
+        let cookie = Cookies.get(tokenCookieName);
         if (cookie) {
-            Cookies.remove(cookieName);
+            Cookies.remove(tokenCookieName);
         }
     }
 
-    getCookieValue() {
-        let cookie = Cookies.get(cookieName);
+    getTokenCookieValue() {
+        let cookie = Cookies.get(tokenCookieName);
         if (cookie) {
             return cookie;
         } else {
-            return "Cookie-en " + cookieName + " er ikke satt. Velg innloggingsnivå over, for å sette cookie-en.";
+            return "Cookie-en " + tokenCookieName + " er ikke satt. Velg innloggingsnivå over, for å sette cookie-en.";
         }
     }
 
@@ -96,7 +96,7 @@ class App extends Component {
                 if (json != null) {
                     let idToken = this.removeSurroundingFnutts(json);
                     this.updateIdTokenOnState(idToken)
-                    this.setCookie();
+                    this.setTokenCookie();
                     console.log("Complete token response:\n" + JSON.stringify(json))
                     this.performAutoRedirectToFrontendIfEnabled();
                 }
@@ -110,9 +110,9 @@ class App extends Component {
         return JSON.stringify(json.id_token).replace("\"", "").replace("\"", "");
     }
 
-    setCookie() {
+    setTokenCookie() {
         if (this.state.idToken) {
-            Cookies.set(cookieName, this.state.idToken);
+            Cookies.set(tokenCookieName, this.state.idToken);
         } else {
             console.log('Error: missing token');
         }
@@ -151,7 +151,7 @@ class App extends Component {
     }
 
     redirectToFrontend() {
-        window.location.assign(`${redirectToFrontend}`);
+        window.location.assign(`${redirectToFrontendUrl}`);
     }
 
 }
