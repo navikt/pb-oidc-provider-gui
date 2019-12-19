@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Cookies from 'js-cookie'
 
 const tokenCookieName = 'selvbetjening-idtoken';
-const autoRedirectToFrontend = process.env.REACT_APP_AUTO_REDIRECT_TO_FRONTEND === "true" ? true : true;
+const autoRedirectToFrontend = process.env.REACT_APP_AUTO_REDIRECT_TO_FRONTEND === "true" ? true : false;
 const redirectToFrontendUrl = process.env.REACT_APP_REDIRECT_URL ? process.env.REACT_APP_REDIRECT_URL : 'http://localhost:8090';
 const oidcProviderGuiUrl = "http://localhost:5000/callback";
 const oidcProviderBaseUrl = 'http://localhost:9000';
