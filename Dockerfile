@@ -1,9 +1,16 @@
 FROM node:carbon
 
-COPY ./ ./
+COPY ./ /app
+WORKDIR /app
 
 RUN npm install && npm run build
 
+RUN npm install serve
+RUN yarn global add serve
+
 EXPOSE 5000
 
-CMD [ "npm", "start" ]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT /entrypoint.sh
