@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Cookies from 'js-cookie'
+import {parse} from "query-string";
 
 const tokenCookieName = 'selvbetjening-idtoken';
 const autoRedirectToFrontend = window.env.AUTO_REDIRECT_TO_FRONTEND === "true" ? true : false;
-const redirectToFrontendUrl = window.env.REDIRECT_URL ? window.env.REDIRECT_URL : 'http://localhost:8090';
 const oidcProviderGuiUrl = "http://localhost:5000/callback";
 const oidcProviderBaseUrl = 'http://localhost:9000';
 const audience = "stubOidcClient";
@@ -151,9 +151,12 @@ class App extends Component {
     }
 
     redirectToFrontend() {
+        let redirectToFrontendUrl = parse(window.location.search).redirect;
+        if(!redirectToFrontendUrl) {
+            redirectToFrontendUrl = window.env.REDIRECT_URL ? window.env.REDIRECT_URL : 'http://localhost:8090'
+        }
         window.location.assign(`${redirectToFrontendUrl}`);
     }
-
 }
 
 export default App;
