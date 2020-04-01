@@ -1,5 +1,3 @@
-[![CircleCI](https://circleci.com/gh/navikt/pb-oidc-provider-gui.svg?style=svg)](https://circleci.com/gh/navikt/pb-oidc-provider-gui)
-
 # Personbruker OIDC-provider GUI
 
 Mini GUI som brukes for å kommunisere med en OIDC-provider på localhost for å hente ut et token som kan brukes i testing.
