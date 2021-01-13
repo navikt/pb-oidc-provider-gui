@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [[ -z "$REDIRECT_URL" ]] || [[ -z "$AUTO_REDIRECT_TO_FRONTEND" ]] ; then
   echo "For å kunne starte applikasjonen må miljøvariablene REDIRECT_URL og AUTO_REDIRECT_TO_FRONTEND være satt."
