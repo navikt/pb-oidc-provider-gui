@@ -25,4 +25,4 @@ echo "window.env.AUTO_REDIRECT_TO_FRONTEND=\"$AUTO_REDIRECT_TO_FRONTEND\";" >> /
 echo "window.env.OIDC_PROVIDER_GUI_URL=\"$OIDC_PROVIDER_GUI_URL\";" >> /app/build/config.js
 
 echo "Starter frontend-en"
-serve -s build
+serve -s build -l 50000
