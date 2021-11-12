@@ -9,15 +9,15 @@ Denne appen startes typisk vha docker-compose for å kjøres sammen med en OIDC-
 ## Kjøre lokalt for utvikling
 1. Bygg appen: `npm install`
 2. Start appen: `npm start`
-3. GUI-et kan nås på `http://localhost:5000`
+3. GUI-et kan nås på `http://localhost:50000`
 
 ### Ta i bruk pb-oidc-provider-gui sammen med pb-oidc-provider
 1. Start både `pb-oidc-provider` og `pb-oidc-provider-gui` samtidig: `docker-compose up`
-2. GUI-et nås på `http://localhost:5000`
+2. GUI-et nås på `http://localhost:50000`
 
 ### Bygge nytt docker-image
 1. Kjør kommandoen: `docker build . -t navikt/pb-oidc-provider-gui:<nytt versjonsnummer>`
-2. Start appen med kommandoen: `docker rund -t navikt/pb-oidc-provider-gui:<versjonsnummeret fra steg 1>`
+2. Start appen med kommandoen: `docker run -t navikt/pb-oidc-provider-gui:<versjonsnummeret fra steg 1>`
 
 # Henvendelser
 

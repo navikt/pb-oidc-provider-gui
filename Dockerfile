@@ -7,7 +7,7 @@ RUN npm install && npm run build
 
 RUN npm install -g serve
 
-EXPOSE 5000
+EXPOSE 50000
 
 RUN chmod +x ./entrypoint.sh
 
