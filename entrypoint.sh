@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [[ -z "$REDIRECT_URL" ]] || [[ -z "$AUTO_REDIRECT_TO_FRONTEND" ]] ; then
+if [[ -z "$REDIRECT_URL" ]] ; then
   echo "For å kunne starte applikasjonen må miljøvariablene REDIRECT_URL og AUTO_REDIRECT_TO_FRONTEND være satt."
   echo "Avbryter oppstart."
   exit 1
@@ -17,10 +17,12 @@ fi
 echo "Tilgjengeliggjør følgende miljøvariabler for frontend-en:"
 echo "* REDIRECT_URL"
 echo "* AUTO_REDIRECT_TO_FRONTEND"
+echo "* OIDC_PROVIDER_GUI_URL"
 
 echo "window.env={};" > /app/build/config.js
 echo "window.env.REDIRECT_URL=\"$REDIRECT_URL\";" >> /app/build/config.js
 echo "window.env.AUTO_REDIRECT_TO_FRONTEND=\"$AUTO_REDIRECT_TO_FRONTEND\";" >> /app/build/config.js
+echo "window.env.OIDC_PROVIDER_GUI_URL=\"$OIDC_PROVIDER_GUI_URL\";" >> /app/build/config.js
 
 echo "Starter frontend-en"
-serve -s build
+serve -s build -l 50000

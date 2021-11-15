@@ -4,12 +4,17 @@ import {parse} from "query-string";
 
 const tokenCookieName = 'selvbetjening-idtoken';
 const autoRedirectToFrontend = window.env.AUTO_REDIRECT_TO_FRONTEND === "true" ? true : false;
-const oidcProviderGuiUrl = "http://localhost:5000/callback";
+const oidcProviderGuiUrl = getOidcProviderGuiUrl();
 const oidcProviderBaseUrl = 'http://localhost:9000';
 const audience = "stubOidcClient";
 const clientSecret = "secretsarehardtokeep";
 const authenticationHeader = new Buffer(audience + ":" + clientSecret).toString('base64');
 const redirectToInitTokenFlow = oidcProviderBaseUrl + "/auth?client_id=" + audience + "&redirect_uri=" + oidcProviderGuiUrl + "&response_type=code&scope=openid+profile+acr+email&nonce=123";
+
+function getOidcProviderGuiUrl() {
+    let url = window.env.OIDC_PROVIDER_GUI_URL
+    return url === undefined ? "http://localhost:50000/callback" : url;
+}
 
 class App extends Component {
 

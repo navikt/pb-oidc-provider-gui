@@ -9,4 +9,4 @@ services:
   oidc-provider-gui:
     image: "navikt/pb-oidc-provider-gui:0.8.0"
     ports:
-      - "5000:5000"
+      - "50000:50000"
